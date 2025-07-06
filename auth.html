@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login / Signup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded shadow-md w-96">
+      <h2 id="form-title" class="text-2xl font-bold mb-6">Login</h2>
+
+      <!-- Login/Signup Form -->
+      <form onsubmit="handleAuth(event)" id="auth-form">
+        <input
+          id="auth-username"
+          type="text"
+          placeholder="Username"
+          required
+          class="w-full mb-3 px-3 py-2 border rounded"
+        />
+        <input
+          id="auth-password"
+          type="password"
+          placeholder="Password"
+          required
+          class="w-full mb-4 px-3 py-2 border rounded"
+        />
+        <button
+          type="submit"
+          class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          id="submit-btn"
+        >
+          Login
+        </button>
+      </form>
+
+      <!-- Toggle Link -->
+      <p class="mt-4 text-sm text-center">
+        <span id="toggle-text">Don't have an account?</span>
+        <a
+          href="#"
+          onclick="toggleMode()"
+          class="text-blue-500 underline"
+          id="toggle-link"
+          >Sign Up</a
+        >
+      </p>
+    </div>
+
+    <script>
+      let isLogin = true; // toggle state
+
+      function toggleMode() {
+        isLogin = !isLogin;
+        document.getElementById("form-title").textContent = isLogin
+          ? "Login"
+          : "Sign Up";
+        document.getElementById("submit-btn").textContent = isLogin
+          ? "Login"
+          : "Sign Up";
+        document.getElementById("toggle-text").textContent = isLogin
+          ? "Don't have an account?"
+          : "Already have an account?";
+        document.getElementById("toggle-link").textContent = isLogin
+          ? "Sign Up"
+          : "Login";
+      }
+
+      function handleAuth(event) {
+        event.preventDefault();
+        const username = document.getElementById("auth-username").value;
+        const password = document.getElementById("auth-password").value;
+
+        if (isLogin) {
+          // LOGIN with FakeStore
+          fetch("https://fakestoreapi.com/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.token) {
+                localStorage.setItem("authToken", data.token);
+                localStorage.setItem("currentUser", username);
+                alert("Login successful!");
+                window.location.href = "index.html";
+              } else {
+                alert("Invalid username or password.");
+              }
+            })
+            .catch(() => alert("Network error."));
+        } else {
+          // SIGNUP simulation (since FakeStore doesn't support actual signup)
+          let users = JSON.parse(localStorage.getItem("fakeUsers")) || [];
+          const exists = users.some((user) => user.username === username);
+          if (exists) {
+            alert("Username already exists!");
+            return;
+          }
+          users.push({ username, password });
+          localStorage.setItem("fakeUsers", JSON.stringify(users));
+          alert("Signup successful! Now log in.");
+          toggleMode();
+        }
+      }
+    </script>
+  </body>
+</html>

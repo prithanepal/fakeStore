@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      rel="stylesheet"
+    />
+    <title>FakeStore</title>
+  </head>
+  <body class="bg-gray-100 text-gray-900">
+    <!-- Navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Hero -->
+    <section class="bg-indigo-600 text-white py-20 text-center">
+      <h1 class="text-4xl font-bold mb-4">Welcome to MyStore</h1>
+      <p class="text-lg mb-6">Your source for high-quality fake products</p>
+      <a
+        href="#"
+        class="bg-white text-indigo-600 px-6 py-3 rounded-full font-semibold"
+        >Shop Now</a
+      >
+    </section>
+    <main class="p-6 max-w-6xl mx-auto">
+      <h1 class="text-2xl font-bold mb-6">All Products</h1>
+      <div
+        id="product-list"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      >
+        <!-- Products will be rendered here -->
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 text-center text-sm text-gray-600 py-4 border-t">
+      &copy; 2025 MyStore. All rights fake.
+    </footer>
+
+    <script>
+      fetch("navbar.html")
+        .then((res) => res.text())
+        .then((data) => {
+          document.getElementById("navbar-placeholder").innerHTML = data;
+        })
+        .then(() => {
+          // Run navbar-related functions after navbar is loaded
+          updateCartBadge();
+          showUserGreeting();
+        });
+
+      fetch("https://fakestoreapi.com/products")
+        .then((res) => res.json())
+        .then((products) => {
+          const list = document.getElementById("product-list");
+          products.forEach((product) => {
+            const card = document.createElement("div");
+            card.className = "bg-white shadow p-4 rounded";
+            card.innerHTML = `
+        <img src="${product.image}" alt="${product.title}" class="h-48 object-contain w-full mb-4" onclick="window.location.href='product.html?id=${product.id}'">
+        <h2 class="font-semibold text-sm line-clamp-2">${product.title}</h2>
+        <p class="text-indigo-600 font-bold my-2">$${product.price}</p>
+        <a href="product.html?id=${product.id}" class="text-sm text-indigo-500 hover:underline">View Details</a>
+      `;
+            list.appendChild(card);
+          });
+        });
+    </script>
+    <script src="shared.js"></script>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Product Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-white text-gray-900">
+    <!-- Navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 p-6">
+      <!-- Product Image -->
+      <div>
+        <img
+          id="product-image"
+          src=""
+          alt=""
+          class="w-full rounded-xl object-contain"
+        />
+      </div>
+
+      <!-- Product Info -->
+      <div>
+        <h1 id="product-title" class="text-2xl font-bold mb-2">Loading...</h1>
+        <p class="text-xl text-gray-600 mb-4">
+          $<span id="product-price">0.00</span>
+        </p>
+
+        <!-- Color Selection -->
+        <div>
+          <h3 class="text-sm font-medium text-gray-900">Color</h3>
+          <div id="color-options" class="flex gap-3 mt-2">
+            <!-- Buttons injected here -->
+          </div>
+        </div>
+
+        <!-- Size Selection -->
+        <div class="mt-4">
+          <h3 class="text-sm font-medium text-gray-900">Size</h3>
+          <div id="size-options" class="flex gap-2 mt-2">
+            <!-- Buttons injected here -->
+          </div>
+        </div>
+
+        <!-- Add to Cart -->
+        <button
+          onclick="addToCart()"
+          class="mt-6 bg-blue-600 text-white w-full py-3 rounded-lg hover:bg-blue-700 transition"
+        >
+          Add to cart
+        </button>
+
+        <!-- Description -->
+        <div class="mt-8">
+          <h3 class="text-sm font-semibold text-gray-900 mb-1">Description</h3>
+          <p
+            id="product-description"
+            class="text-sm text-gray-700 leading-relaxed"
+          >
+            Loading...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      fetch("navbar.html")
+        .then((res) => res.text())
+        .then((data) => {
+          document.getElementById("navbar-placeholder").innerHTML = data;
+        })
+        .then(() => {
+          // Run navbar-related functions after navbar is loaded
+          updateCartBadge();
+          showUserGreeting();
+        });
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get("id");
+
+      let selectedSize = "M";
+      let selectedColor = "Black";
+
+      const sizes = ["XS", "S", "M", "L", "XL"];
+      const colors = ["Black", "Gray"]; // you can customize this per product
+
+      fetch(`https://fakestoreapi.com/products/${productId}`)
+        .then((res) => res.json())
+        .then((product) => {
+          document.getElementById("product-title").textContent = product.title;
+          document.getElementById("product-image").src = product.image;
+          document.getElementById("product-price").textContent = product.price;
+          document.getElementById("product-description").textContent =
+            product.description;
+
+          renderSizes();
+          renderColors();
+          updateCartBadge();
+        });
+
+      function renderSizes() {
+        const container = document.getElementById("size-options");
+        container.innerHTML = "";
+        sizes.forEach((size) => {
+          const btn = document.createElement("button");
+          btn.textContent = size;
+          btn.className = `px-3 py-1 border rounded-md text-sm ${
+            size === selectedSize ? "bg-blue-600 text-white" : ""
+          }`;
+          btn.onclick = () => {
+            selectedSize = size;
+            renderSizes();
+          };
+          container.appendChild(btn);
+        });
+      }
+
+      function renderColors() {
+        const container = document.getElementById("color-options");
+        container.innerHTML = "";
+        colors.forEach((color) => {
+          const btn = document.createElement("button");
+          btn.className = `w-8 h-8 rounded-full border-2 ${
+            color === selectedColor ? "border-black" : "border-gray-300"
+          } ${getColorClass(color)}`;
+          btn.onclick = () => {
+            selectedColor = color;
+            renderColors();
+          };
+          container.appendChild(btn);
+        });
+      }
+
+      function getColorClass(color) {
+        switch (color.toLowerCase()) {
+          case "black":
+            return "bg-black";
+          case "gray":
+            return "bg-gray-400";
+          case "sienna":
+            return "bg-yellow-800";
+          case "white":
+            return "bg-white";
+          default:
+            return "bg-gray-200";
+        }
+      }
+
+      function addToCart() {
+        const user = localStorage.getItem("authToken");
+        const username = localStorage.getItem("currentUser");
+
+        if (!user || !username) {
+          alert("You must be logged in to add items to cart.");
+          window.location.href = "auth.html"; // or login.html
+          return;
+        }
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        const existing = cart.find(
+          (item) =>
+            item.id == productId &&
+            item.size === selectedSize &&
+            item.color === selectedColor
+        );
+
+        if (existing) {
+          existing.quantity += 1;
+        } else {
+          cart.push({
+            id: parseInt(productId),
+            size: selectedSize,
+            color: selectedColor,
+            quantity: 1,
+          });
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartBadge();
+        alert("Product added to cart!");
+        console.log("Adding to cart:", productId, selectedSize, selectedColor);
+      }
+    </script>
+
+    <script src="shared.js"></script>
+  </body>
+</html>

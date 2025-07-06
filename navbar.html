@@ -1,0 +1,50 @@
+<header class="bg-white shadow py-4 flex justify-between px-8">
+  <div class="">
+    <a href="index.html" class="font-bold text-2xl text-black-600">FakeStore</a>
+  </div>
+  <nav>
+    <a href="index.html" class="mx-4 hover:underline">Home</a>
+    <a href="contact.html" class="mx-4 hover:underline">Contact</a>
+    <a href="about.html" class="mx-4 hover:underline">About</a>
+    <a href="auth.html" class="mx-4 hover:underline">Sign Up</a>
+  </nav>
+  <div class="flex items-center gap-4">
+    <!-- Search Bar -->
+    <div class="relative">
+      <input
+        type="search"
+        id="default-search"
+        class="block w-full h-[35px] p-3 text-sm text-gray-900 border rounded-lg bg-gray-50"
+        placeholder="Search"
+      />
+      <button
+        type="submit"
+        class="text-black absolute end-0.5 bottom-0.5 font-medium rounded-lg text-sm px-4 py-1.5"
+      >
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+
+    <!-- Cart Icon -->
+    <a href="cart.html" class="relative text-lg">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span
+        id="cart-count-badge"
+        class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-semibold w-5 h-5 flex items-center justify-center rounded-full"
+        style="display: none"
+      >
+        0
+      </span>
+    </a>
+
+    <!-- User Info -->
+    <span id="user-greeting" class="text-sm font-medium hidden"></span>
+    <button
+      onclick="logout()"
+      id="logout-btn"
+      class="text-red-600 text-sm font-medium hover:underline hidden"
+    >
+      Logout
+    </button>
+  </div>
+</header>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-white text-gray-800">
+    <!-- Navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <div class="max-w-5xl mx-auto py-10 px-4">
+      <h1 class="text-2xl font-bold mb-6">Shopping Cart</h1>
+      <div id="cart-items" class="space-y-6"></div>
+
+      <!-- Summary -->
+      <div class="mt-10 border-t pt-6">
+        <h2 class="text-lg font-semibold mb-4">Order Summary</h2>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span>Subtotal</span>
+            <span id="subtotal">$0.00</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Shipping</span>
+            <span id="shipping">$5.00</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Tax (10%)</span>
+            <span id="tax">$0.00</span>
+          </div>
+          <div
+            class="flex justify-between font-semibold text-base pt-2 border-t"
+          >
+            <span>Total</span>
+            <span id="total">$0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      fetch("navbar.html")
+        .then((res) => res.text())
+        .then((data) => {
+          document.getElementById("navbar-placeholder").innerHTML = data;
+        })
+        .then(() => {
+          // Run navbar-related functions after navbar is loaded
+          updateCartBadge();
+          showUserGreeting();
+        });
+
+      const cartContainer = document.getElementById("cart-items");
+      const subtotalEl = document.getElementById("subtotal");
+      const taxEl = document.getElementById("tax");
+      const totalEl = document.getElementById("total");
+
+      const shippingFee = 5;
+
+      // Sample cart format: [{ id: 1, quantity: 2, size: "L", color: "Black" }]
+      let rawCart = localStorage.getItem("cart");
+      let cart = [];
+
+      try {
+        cart = rawCart ? JSON.parse(rawCart) : [];
+      } catch (e) {
+        console.error("Invalid cart data in localStorage:", e);
+        cart = []; // fallback to empty cart
+      }
+
+      async function renderCart() {
+        cartContainer.innerHTML = "";
+        let subtotal = 0;
+
+        for (const item of cart) {
+          const res = await fetch(
+            `https://fakestoreapi.com/products/${item.id}`
+          );
+          const product = await res.json();
+          const price = product.price * item.quantity;
+          subtotal += price;
+
+          cartContainer.innerHTML += `
+          <div class="flex items-start justify-between border-b pb-4">
+            <div class="flex gap-4">
+              <img src="${
+                product.image
+              }" class="w-24 h-24 object-contain rounded-lg" />
+              <div>
+                <h3 class="font-semibold text-base">${product.title}</h3>
+                <p class="text-sm text-gray-500 capitalize">${
+                  item.color || "Default"
+                }</p>
+                <p class="text-sm text-gray-500">Size: ${item.size || "M"}</p>
+                <p class="text-sm text-green-600 mt-1">✔ In stock</p>
+                <button onclick="removeFromCart(${
+                  item.id
+                })" class="text-sm text-purple-600 mt-1 hover:underline">Remove</button>
+              </div>
+            </div>
+            <div class="text-right">
+              <select onchange="updateQuantity(${
+                item.id
+              }, this.value)" class="border rounded px-2 py-1">
+                ${[1, 2, 3, 4, 5]
+                  .map(
+                    (q) =>
+                      `<option value="${q}" ${
+                        q == item.quantity ? "selected" : ""
+                      }>${q}</option>`
+                  )
+                  .join("")}
+              </select>
+              <p class="mt-2 font-medium">$${product.price.toFixed(2)}</p>
+            </div>
+          </div>
+        `;
+          console.log("Cart items:", cart);
+        }
+
+        const tax = subtotal * 0.1;
+        const total = subtotal + tax + shippingFee;
+
+        subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+        taxEl.textContent = `$${tax.toFixed(2)}`;
+        totalEl.textContent = `$${total.toFixed(2)}`;
+      }
+
+      function updateQuantity(id, quantity) {
+        cart = cart.map((item) =>
+          item.id == id ? { ...item, quantity: parseInt(quantity) } : item
+        );
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+      }
+
+      function removeFromCart(id) {
+        cart = cart.filter((item) => item.id != id);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+      }
+
+      renderCart();
+    </script>
+
+    <script src="shared.js"></script>
+  </body>
+</html>
