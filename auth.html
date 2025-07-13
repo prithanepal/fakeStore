@@ -4,105 +4,243 @@
     <meta charset="UTF-8" />
     <title>Login / Signup</title>
     <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-gray-100 h-screen flex items-center justify-center">
-    <div class="bg-white p-8 rounded shadow-md w-96">
-      <h2 id="form-title" class="text-2xl font-bold mb-6">Login</h2>
-
-      <!-- Login/Signup Form -->
-      <form onsubmit="handleAuth(event)" id="auth-form">
-        <input
-          id="auth-username"
-          type="text"
-          placeholder="Username"
-          required
-          class="w-full mb-3 px-3 py-2 border rounded"
-        />
-        <input
-          id="auth-password"
-          type="password"
-          placeholder="Password"
-          required
-          class="w-full mb-4 px-3 py-2 border rounded"
-        />
-        <button
-          type="submit"
-          class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-          id="submit-btn"
-        >
-          Login
-        </button>
-      </form>
-
-      <!-- Toggle Link -->
-      <p class="mt-4 text-sm text-center">
-        <span id="toggle-text">Don't have an account?</span>
-        <a
-          href="#"
-          onclick="toggleMode()"
-          class="text-blue-500 underline"
-          id="toggle-link"
-          >Sign Up</a
-        >
-      </p>
-    </div>
-
-    <script>
-      let isLogin = true; // toggle state
-
-      function toggleMode() {
-        isLogin = !isLogin;
-        document.getElementById("form-title").textContent = isLogin
-          ? "Login"
-          : "Sign Up";
-        document.getElementById("submit-btn").textContent = isLogin
-          ? "Login"
-          : "Sign Up";
-        document.getElementById("toggle-text").textContent = isLogin
-          ? "Don't have an account?"
-          : "Already have an account?";
-        document.getElementById("toggle-link").textContent = isLogin
-          ? "Sign Up"
-          : "Login";
+    <style>
+      .login_img_section {
+        background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.7)),
+          url(https://images.unsplash.com/photo-1650825556125-060e52d40bd0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)
+            center center;
       }
+    </style>
+  </head>
+  <!-- component -->
+  <body>
+    <div class="h-screen flex">
+      <div
+        class="hidden lg:flex w-full lg:w-1/2 login_img_section justify-around items-center"
+      >
+        <div class="bg-black opacity-20 inset-0 z-0"></div>
+        <div class="w-full mx-auto px-20 flex-col items-center space-y-6">
+          <h1 class="text-white font-bold text-4xl font-sans">Simple App</h1>
+          <p class="text-white mt-1">The simplest app to use</p>
+          <div class="flex justify-center lg:justify-start mt-6">
+            <a
+              href="#"
+              class="hover:bg-indigo-700 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-indigo-800 mt-4 px-4 py-2 rounded-2xl font-bold mb-2"
+              >Get Started</a
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8"
+      >
+        <div class="w-full px-8 md:px-32 lg:px-24">
+          <form
+            class="bg-white rounded-md shadow-2xl p-5"
+            onsubmit="handleAuth(event)"
+            id="auth-form"
+          >
+            <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello Again!</h1>
+            <p class="text-sm font-normal text-gray-600 mb-8">Welcome Back</p>
+            <div class="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                />
+              </svg>
+              <input
+                id="auth-username"
+                type="text"
+                placeholder="Username"
+                class="pl-2 w-full outline-none border-none"
+              />
+            </div>
+            <div class="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-gray-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <input
+                class="pl-2 w-full outline-none border-none"
+                type="password"
+                name="password"
+                id="auth-password"
+                placeholder="Password"
+              />
+            </div>
+            <button
+              type="submit"
+              id="submit-btn"
+              class="block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2"
+            >
+              Login
+            </button>
+            <div class="flex justify-between mt-4">
+              <span
+                class="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
+                >Forgot Password ?</span
+              >
+
+              <a
+                href="#"
+                class="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
+                >Don't have an account yet?</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Toast Notification -->
+    <div
+      id="toast"
+      class="fixed top-5 right-5 z-50 hidden p-4 rounded-lg text-white shadow-lg text-sm transition-all duration-300"
+    ></div>
+    <script>
+      let isSignUp = false;
+
+      const form = document.getElementById("auth-form");
+      const submitBtn = document.getElementById("submit-btn");
+      const toggleLink = form.querySelector("a[href='#']");
+      const heading = form.querySelector("h1");
+      const subText = form.querySelector("p");
+      const passwordField = document.getElementById("auth-password");
+      const usernameField = document.getElementById("auth-username");
+
+      // Create and insert email field (hidden by default)
+      const emailDiv = document.createElement("div");
+      emailDiv.className =
+        "flex items-center border-2 mb-8 py-2 px-3 rounded-2xl hidden";
+      emailDiv.innerHTML = `
+         <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-gray-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+        <input id="auth-email" type="email" placeholder="Email" class="pl-2 w-full outline-none border-none" />
+      `;
+      passwordField.parentElement.before(emailDiv);
+
+      toggleLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        isSignUp = !isSignUp;
+
+        heading.textContent = isSignUp ? "Join Us!" : "Hello Again!";
+        subText.textContent = isSignUp ? "Create your account" : "Welcome Back";
+        submitBtn.textContent = isSignUp ? "Sign Up" : "Login";
+        toggleLink.textContent = isSignUp
+          ? "Already have an account?"
+          : "Don't have an account yet?";
+        emailDiv.classList.toggle("hidden");
+      });
 
       function handleAuth(event) {
         event.preventDefault();
-        const username = document.getElementById("auth-username").value;
-        const password = document.getElementById("auth-password").value;
+        const username = usernameField.value.trim();
+        const password = passwordField.value.trim();
+        const email = isSignUp
+          ? document.getElementById("auth-email").value.trim()
+          : null;
 
-        if (isLogin) {
-          // LOGIN with FakeStore
-          fetch("https://fakestoreapi.com/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.token) {
-                localStorage.setItem("authToken", data.token);
-                localStorage.setItem("currentUser", username);
-                alert("Login successful!");
-                window.location.href = "index.html";
-              } else {
-                alert("Invalid username or password.");
-              }
-            })
-            .catch(() => alert("Network error."));
-        } else {
-          // SIGNUP simulation (since FakeStore doesn't support actual signup)
-          let users = JSON.parse(localStorage.getItem("fakeUsers")) || [];
-          const exists = users.some((user) => user.username === username);
-          if (exists) {
-            alert("Username already exists!");
+        if (!username || !password || (isSignUp && !email)) {
+          showToast("Please fill in all fields.", "error");
+          return;
+        }
+
+        if (isSignUp) {
+          // Check if user already exists
+          const existingUsers = JSON.parse(
+            localStorage.getItem("users") || "[]"
+          );
+          if (existingUsers.find((user) => user.username === username)) {
+            showToast("User already exists!", "error");
             return;
           }
-          users.push({ username, password });
-          localStorage.setItem("fakeUsers", JSON.stringify(users));
-          alert("Signup successful! Now log in.");
-          toggleMode();
+
+          // Save user to localStorage
+          existingUsers.push({ username, email, password });
+          localStorage.setItem("users", JSON.stringify(existingUsers));
+          showToast("Signup successful! You can now login.");
+          toggleLink.click(); // switch to login form
+        } else {
+          // LOGIN FLOW
+          const existingUsers = JSON.parse(
+            localStorage.getItem("users") || "[]"
+          );
+          const user = existingUsers.find(
+            (user) => user.username === username && user.password === password
+          );
+
+          if (user) {
+            sessionStorage.setItem("loggedInUser", JSON.stringify(user));
+            window.location.href = "index.html";
+          } else {
+            // fallback: fake store API demo user
+            fetch("https://fakestoreapi.com/auth/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ username, password }),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.token) {
+                  sessionStorage.setItem(
+                    "loggedInUser",
+                    JSON.stringify({ username })
+                  );
+                  window.location.href = "index.html";
+                } else {
+                  showToast("Invalid login credentials.", "error");
+                }
+              })
+              .catch(() =>
+                showToast("Something went wrong. Try again.", "error")
+              );
+          }
         }
+      }
+
+      function showToast(message, type = "success") {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+
+        toast.className =
+          "fixed top-5 right-5 z-50 p-4 rounded-lg text-white shadow-lg text-sm transition-all duration-300";
+
+        if (type === "error") {
+          toast.classList.add("bg-red-600");
+        } else {
+          toast.classList.add("bg-green-600");
+        }
+
+        toast.classList.remove("hidden");
+        setTimeout(() => {
+          toast.classList.add("hidden");
+        }, 3000);
       }
     </script>
   </body>

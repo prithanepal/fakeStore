@@ -1,50 +1,104 @@
-<header class="bg-white shadow py-4 flex justify-between px-8">
-  <div class="">
-    <a href="index.html" class="font-bold text-2xl text-black-600">FakeStore</a>
-  </div>
-  <nav>
-    <a href="index.html" class="mx-4 hover:underline">Home</a>
-    <a href="contact.html" class="mx-4 hover:underline">Contact</a>
-    <a href="about.html" class="mx-4 hover:underline">About</a>
-    <a href="auth.html" class="mx-4 hover:underline">Sign Up</a>
-  </nav>
-  <div class="flex items-center gap-4">
-    <!-- Search Bar -->
-    <div class="relative">
-      <input
-        type="search"
-        id="default-search"
-        class="block w-full h-[35px] p-3 text-sm text-gray-900 border rounded-lg bg-gray-50"
-        placeholder="Search"
-      />
-      <button
-        type="submit"
-        class="text-black absolute end-0.5 bottom-0.5 font-medium rounded-lg text-sm px-4 py-1.5"
+<div class="reltive w-full">
+  <header class="bg-white shadow py-4 flex justify-between px-8">
+    <div class="">
+      <a href="index.html" class="font-bold text-2xl text-black-600"
+        >FakeStore</a
       >
-        <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+    <nav>
+      <a href="index.html" class="mx-4 hover:underline">Home</a>
+      <a href="contact.html" class="mx-4 hover:underline">Contact</a>
+      <a href="about.html" class="mx-4 hover:underline">About</a>
+      <a href="auth.html" class="mx-4 hover:underline">Login In</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <a href="cart.html" class="relative text-lg">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span
+          id="cart-count-badge"
+          class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-semibold w-5 h-5 flex items-center justify-center rounded-full"
+          style="display: none"
+        >
+          0
+        </span>
+      </a>
+
+      <span id="user-greeting" class="text-sm font-medium hidden"></span>
+      <button
+        onclick="logout()"
+        id="logout-btn"
+        class="text-red-600 text-sm font-medium hover:underline hidden"
+      >
+        Logout
       </button>
     </div>
-
-    <!-- Cart Icon -->
-    <a href="cart.html" class="relative text-lg">
-      <i class="fa-solid fa-cart-shopping"></i>
-      <span
-        id="cart-count-badge"
-        class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-semibold w-5 h-5 flex items-center justify-center rounded-full"
-        style="display: none"
-      >
-        0
-      </span>
-    </a>
-
-    <!-- User Info -->
-    <span id="user-greeting" class="text-sm font-medium hidden"></span>
-    <button
-      onclick="logout()"
-      id="logout-btn"
-      class="text-red-600 text-sm font-medium hover:underline hidden"
-    >
-      Logout
-    </button>
+  </header>
+  <div class="relative bg-yellow-50">
+    <div class="container m-auto px-6 md:px-12 lg:px-7">
+      <div class="flex items-center flex-wrap px-2 md:px-0">
+        <div class="relative lg:w-6/12 lg:py-24 xl:py-32">
+          <h1 class="font-bold text-4xl text-yellow-900 md:text-5xl lg:w-10/12">
+            Your favorite brands, right at your door
+          </h1>
+          <form action="" class="w-full mt-12">
+            <div
+              class="relative flex p-1 rounded-full bg-white border border-yellow-200 shadow-md md:p-2"
+            >
+              <select
+                class="hidden p-3 rounded-full bg-transparent md:block md:p-4"
+                name="domain"
+                id="domain"
+              >
+                <option value="electronics">Electronics</option>
+                <option value="jewelery">Jewelery</option>
+                <option value="men's clothing">Men's Clothing</option>
+                <option value="women's clothing">Women's Clothing</option>
+              </select>
+              <input
+                placeholder="Your favorite category"
+                class="w-full p-4 rounded-full"
+                type="text"
+              />
+              <button
+                type="button"
+                title="Start buying"
+                class="ml-auto py-3 px-6 rounded-full text-center transition bg-gradient-to-b from-yellow-200 to-yellow-300 hover:to-red-300 active:from-yellow-400 focus:from-red-400 md:px-12"
+              >
+                <span class="hidden text-yellow-900 font-semibold md:block">
+                  Search
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 mx-auto text-yellow-900 md:hidden"
+                  fill="currentColor"
+                  class="bi bi-search"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </form>
+          <p class="mt-8 text-gray-700 lg:w-10/12">
+            Lorem ipsum dolor, sit amet consectetur Lorem
+            <a href="#" class="text-yellow-700">Shop</a> adipisicing elit.
+            Voluptatibus illum eaqu Suscipit aut quisquam sapiente ut in eum
+            optio molestias quas.
+          </p>
+        </div>
+        <div class="ml-auto mb-24 lg:-mb-56 lg:w-6/12">
+          <img
+            src="cloth.svg"
+            class="relative"
+            alt="cloth illustration"
+            loading="lazy"
+            width="4500"
+            height="4500"
+          />
+        </div>
+      </div>
+    </div>
   </div>
-</header>
+</div>
